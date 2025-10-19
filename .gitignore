@@ -3,5 +3,7 @@
 *.webm
 *.part
 *.ytdl
+*.vtt
 
 ffmpeg
+__pycache__
