@@ -5,6 +5,7 @@ Download logic and progress tracking for the YouTube Downloader application.
 import os
 import yt_dlp
 from core.utils import find_language_code_by_name
+from core.localization import localization
 
 
 def create_ydl_format_string(selected_resolution, selected_format, selected_audio):
@@ -40,17 +41,19 @@ def download_video(entry, output_dir, progress_callback=None, status_callback=No
     def progress_hook(d):
         """Progress hook for yt-dlp"""
         if d['status'] == 'downloading':
+            downloading_text = f"⏳ {localization.get('video.downloading', 'Downloading...')}"
             if 'total_bytes' in d and d['total_bytes']:
                 percent = int(d['downloaded_bytes'] * 100 / d['total_bytes'])
                 if progress_callback:
-                    progress_callback(percent, "⏳ Descargando...")
+                    progress_callback(percent, downloading_text)
             elif 'total_bytes_estimate' in d and d['total_bytes_estimate']:
                 percent = int(d['downloaded_bytes'] * 100 / d['total_bytes_estimate'])
                 if progress_callback:
-                    progress_callback(percent, "⏳ Descargando...")
+                    progress_callback(percent, downloading_text)
         elif d['status'] == 'finished':
+            completed_text = f"✅ {localization.get('video.completed', 'Completed')}"
             if progress_callback:
-                progress_callback(100, "✅ Completado")
+                progress_callback(100, completed_text)
             if completion_callback:
                 completion_callback()
     
@@ -77,7 +80,8 @@ def download_video(entry, output_dir, progress_callback=None, status_callback=No
     }
     
     # Add subtitle options if selected
-    if subtitle_lang != "Sin subtítulos":
+    no_subtitles_text = localization.get("formats.no_subtitles", "No subtitles")
+    if subtitle_lang != no_subtitles_text:
         subtitle_code = find_language_code_by_name(subtitle_lang)
         ydl_opts.update({
             "writesubtitles": True,
@@ -90,5 +94,6 @@ def download_video(entry, output_dir, progress_callback=None, status_callback=No
             ydl.download([entry["url"]])
     except Exception as e:
         if status_callback:
-            status_callback("❌ Error")
+            error_text = f"❌ {localization.get('video.error', 'Error')}"
+            status_callback(error_text)
         raise e

@@ -19,6 +19,7 @@ from core.video_info import (
 )
 from core.downloader import download_video
 from core.utils import sanitize_filename
+from core.localization import localization
 from config import THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH
 
 
@@ -66,7 +67,7 @@ class VideoEntry:
         """Create the thumbnail display area."""
         self.thumb_label = ctk.CTkLabel(
             self.frame, 
-            text="Cargando imagen...", 
+            text=localization.get("video.loading_image", "Loading image..."), 
             width=THUMBNAIL_WIDTH, 
             height=THUMBNAIL_HEIGHT, 
             fg_color="#1f1f1f"
@@ -79,7 +80,7 @@ class VideoEntry:
         self.content_frame.pack(side="left", fill="both", expand=True, padx=5, pady=5)
         
         # Title label
-        self.title_label = ctk.CTkLabel(self.content_frame, text="Cargando...")
+        self.title_label = ctk.CTkLabel(self.content_frame, text=localization.get("video.loading", "Loading..."))
         self.title_label.pack(anchor="w", pady=2)
     
     def _create_progress_area(self):
@@ -93,7 +94,7 @@ class VideoEntry:
         self.top_row.pack(fill="x", pady=(0,2))
 
         # Left side: Status
-        self.status_label = ctk.CTkLabel(self.top_row, text="Esperando", width=20, anchor="w")
+        self.status_label = ctk.CTkLabel(self.top_row, text=localization.get("video.waiting", "Waiting"), width=20, anchor="w")
         self.status_label.pack(side="left")
 
         # Right side: Progress percentage
@@ -154,14 +155,14 @@ class VideoEntry:
         """Update the UI with video information and options."""
         def update():
             # Update title
-            self.title_label.configure(text=info.get("title", "Título no disponible"))
+            self.title_label.configure(text=info.get("title", localization.get("video.error_loading", "Error loading metadata")))
             
             # Stop indeterminate progress and set to normal mode
             self.progress.stop()
             self.progress.configure(mode="determinate")
             self.progress.set(0)
             self.progress_label.configure(text="0%")
-            self.status_label.configure(text="Listo")
+            self.status_label.configure(text=localization.get("video.ready", "Ready"))
             
             # Create variables
             self.entry_data["res_var"] = tk.StringVar(value=resolution_options[0])
@@ -189,13 +190,13 @@ class VideoEntry:
         # Buttons
         self.entry_data["download_btn"] = ctk.CTkButton(
             option_frame, 
-            text="⬇ Descargar",
+            text=f"⬇ {localization.get('video.download', 'Download')}",
             command=self._start_download,
             state="disabled"
         )
         self.entry_data["download_btn"].pack(side="left", padx=2)
         
-        ctk.CTkButton(option_frame, text="🗑 Quitar", command=self._remove_entry).pack(side="left", padx=2)
+        ctk.CTkButton(option_frame, text=f"🗑 {localization.get('video.remove', 'Remove')}", command=self._remove_entry).pack(side="left", padx=2)
         
         # Enable the download button after UI is ready
         self.entry_data["download_btn"].configure(state="normal")
@@ -216,8 +217,9 @@ class VideoEntry:
         
         # Disable download button
         self.entry_data["download_btn"].configure(state="disabled")
-        self._update_status("⏳ Descargando...")
-        self._update_progress(0, "⏳ Descargando...")
+        downloading_text = f"⏳ {localization.get('video.downloading', 'Downloading...')}"
+        self._update_status(downloading_text)
+        self._update_progress(0, downloading_text)
         
         # Start download in separate thread
         threading.Thread(target=download_task, daemon=True).start()
@@ -248,8 +250,8 @@ class VideoEntry:
     def _handle_error(self, error_message):
         """Handle video info loading error."""
         def update():
-            self.title_label.configure(text="Error cargando metadata")
-            self.status_label.configure(text="Error")
+            self.title_label.configure(text=localization.get("video.error_loading", "Error loading metadata"))
+            self.status_label.configure(text=localization.get("video.error", "Error"))
             self.progress.stop()
             self.progress.configure(mode="determinate")
             self.progress.set(0)
@@ -260,7 +262,8 @@ class VideoEntry:
     def _handle_download_error(self, error_message):
         """Handle download error."""
         def update():
-            self.status_label.configure(text="❌ Error")
+            error_text = f"❌ {localization.get('video.error', 'Error')}"
+            self.status_label.configure(text=error_text)
             self.entry_data["download_btn"].configure(state="normal")
         
         self.frame.after(0, update)

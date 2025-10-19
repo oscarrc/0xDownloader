@@ -23,8 +23,9 @@ THUMBNAIL_WIDTH = int(THUMBNAIL_HEIGHT * 16 / 9)  # Maintain 16:9 aspect ratio
 VIDEO_LIST_WIDTH = 980
 VIDEO_LIST_HEIGHT = 550
 
-# Language file path
-LANGUAGE_FILE = "lang.json"
+# Localization
+LOCALES_DIR = "locales"
+LANGUAGE_FILE = "locales/lang.json"  # For language names (ISO codes)
 
 # Links
 OSCAR_WEBSITE = "https://oscarrc.me"

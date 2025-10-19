@@ -8,10 +8,11 @@ from tkinter import filedialog
 import webbrowser
 
 from config import (
-    APP_TITLE, APP_GEOMETRY, APPEARANCE_MODE, COLOR_THEME,
+    APP_GEOMETRY, APPEARANCE_MODE, COLOR_THEME,
     DEFAULT_OUTPUT_DIR, VIDEO_LIST_WIDTH, VIDEO_LIST_HEIGHT,
     OSCAR_WEBSITE, KO_FI_LINK
 )
+from core.localization import localization
 from ui.video_entry import VideoEntry
 
 
@@ -25,7 +26,7 @@ class MainWindow:
         
         # Create main window
         self.root = ctk.CTk()
-        self.root.title(APP_TITLE)
+        self.root.title(localization.get("app.title", "YouTube Downloader"))
         self.root.geometry(APP_GEOMETRY)
         
         # Initialize data
@@ -47,11 +48,11 @@ class MainWindow:
         self.top_frame.pack(fill="x", pady=(10, 20), padx=10)
         
         # URL input
-        self.url_entry = ctk.CTkEntry(self.top_frame, placeholder_text="Enlace de YouTube")
+        self.url_entry = ctk.CTkEntry(self.top_frame, placeholder_text=localization.get("app.url_placeholder", "YouTube Link"))
         self.url_entry.pack(side="left", fill="x", expand=True, padx=(0, 5))
         
         # Add button
-        self.add_button = ctk.CTkButton(self.top_frame, text="Añadir", command=self._add_video)
+        self.add_button = ctk.CTkButton(self.top_frame, text=localization.get("app.add_button", "Add"), command=self._add_video)
         self.add_button.pack(side="left")
     
     def _create_button_frame(self):
@@ -62,14 +63,14 @@ class MainWindow:
         # Download and clear buttons
         self.download_all_button = ctk.CTkButton(
             self.btn_frame, 
-            text="Descargar lista",
+            text=localization.get("app.download_list", "Download List"),
             command=self._download_all
         )
         self.download_all_button.pack(side="left", padx=5)
         
         self.clear_button = ctk.CTkButton(
             self.btn_frame, 
-            text="Vaciar lista", 
+            text=localization.get("app.clear_list", "Clear List"), 
             command=self._clear_list
         )
         self.clear_button.pack(side="left", padx=5)
@@ -85,7 +86,7 @@ class MainWindow:
         # Folder input field
         self.folder_entry = ctk.CTkEntry(
             self.folder_frame, 
-            placeholder_text=self.output_dir, 
+            placeholder_text=localization.get("app.folder_placeholder", "Destination Folder"), 
             width=300
         )
         self.folder_entry.pack(side="left", padx=(0, 5))
@@ -114,9 +115,10 @@ class MainWindow:
         self.footer_frame.pack(fill="x", padx=10, pady=5)
         
         # Left side: Attribution
+        attribution_text = f"{localization.get('app.made_with', 'Made with')} 🩷 {localization.get('app.by', 'by')} Oscar R.C."
         self.attribution_label = ctk.CTkLabel(
             self.footer_frame, 
-            text="Made with 🩷 by Oscar R.C.", 
+            text=attribution_text, 
             text_color="white", 
             cursor="hand2"
         )
@@ -125,7 +127,7 @@ class MainWindow:
         # Right side: Coffee link
         self.coffee_label = ctk.CTkLabel(
             self.footer_frame, 
-            text="Buy me a coffee", 
+            text=localization.get("app.buy_coffee", "Buy me a coffee"), 
             text_color="white", 
             cursor="hand2"
         )

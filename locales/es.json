@@ -1,0 +1,29 @@
+{
+  "app": {
+    "title": "Descargador de YouTube",
+    "url_placeholder": "Enlace de YouTube",
+    "add_button": "Añadir",
+    "download_list": "Descargar lista",
+    "clear_list": "Vaciar lista",
+    "folder_placeholder": "Carpeta destino",
+    "made_with": "Hecho con",
+    "by": "por",
+    "buy_coffee": "Cómprame un café"
+  },
+  "video": {
+    "loading": "Cargando...",
+    "loading_image": "Cargando imagen...",
+    "error_loading": "Error cargando metadata",
+    "download": "Descargar",
+    "remove": "Quitar",
+    "ready": "Listo",
+    "downloading": "Descargando...",
+    "completed": "Completado",
+    "error": "Error",
+    "waiting": "Esperando"
+  },
+  "formats": {
+    "best": "best - Mejor calidad",
+    "no_subtitles": "Sin subtítulos"
+  }
+}

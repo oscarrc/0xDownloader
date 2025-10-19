@@ -1,0 +1,29 @@
+{
+  "app": {
+    "title": "YouTube Downloader",
+    "url_placeholder": "YouTube Link",
+    "add_button": "Add",
+    "download_list": "Download List",
+    "clear_list": "Clear List",
+    "folder_placeholder": "Destination Folder",
+    "made_with": "Made with",
+    "by": "by",
+    "buy_coffee": "Buy me a coffee"
+  },
+  "video": {
+    "loading": "Loading...",
+    "loading_image": "Loading image...",
+    "error_loading": "Error loading metadata",
+    "download": "Download",
+    "remove": "Remove",
+    "ready": "Ready",
+    "downloading": "Downloading...",
+    "completed": "Completed",
+    "error": "Error",
+    "waiting": "Waiting"
+  },
+  "formats": {
+    "best": "best - Best quality",
+    "no_subtitles": "No subtitles"
+  }
+}

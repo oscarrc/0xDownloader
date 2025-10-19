@@ -4,6 +4,7 @@ Video information fetching and processing for the YouTube Downloader application
 
 import yt_dlp
 from core.utils import get_language_display_name
+from core.localization import localization
 
 
 def fetch_video_info(url):
@@ -20,7 +21,7 @@ def extract_resolution_options(formats):
     seen_heights = set()
     
     # Add "best" option first
-    resolution_options.append("best - Mejor calidad")
+    resolution_options.append(localization.get("formats.best", "best - Best quality"))
     
     # Add specific resolutions
     for f in formats:
@@ -88,11 +89,11 @@ def extract_audio_language_options(formats, info):
 
 def extract_subtitle_options(info):
     """Extract available subtitle options from video info."""
-    subs_options = ["Sin subtítulos"]
+    subs_options = [localization.get("formats.no_subtitles", "No subtitles")]
     if info.get("subtitles"):
         subtitle_langs = list(info.get("subtitles", {}).keys())
         subs_options.extend([get_language_display_name(lang) for lang in subtitle_langs])
-    subs_options = subs_options or ["Sin subtítulos"]
+    subs_options = subs_options or [localization.get("formats.no_subtitles", "No subtitles")]
     return subs_options
 
 
