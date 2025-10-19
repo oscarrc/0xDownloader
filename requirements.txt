@@ -1,0 +1,10 @@
+# YouTube Downloader Dependencies
+
+# Core dependencies
+yt-dlp>=2023.12.30
+customtkinter>=5.2.0
+Pillow>=10.0.0
+requests>=2.31.0
+
+# Build dependencies (for creating executables)
+pyinstaller>=6.0.0
