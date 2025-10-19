@@ -1,5 +1,5 @@
 """
-Build script for YouTube Downloader application.
+Build script for 0xDownloader application.
 
 This script creates a standalone executable using PyInstaller.
 """
@@ -64,15 +64,29 @@ def create_build_spec():
     """Create PyInstaller spec file with proper configuration."""
     print("\nCreating build specification...")
     
-    spec_content = '''# -*- mode: python ; coding: utf-8 -*-
+    # Prepare data files
+    datas = [
+        ('locales', 'locales'),
+        ('config.py', '.'),
+    ]
+    
+    # Add icon if it exists
+    icon_path = None
+    icon_file = 'assets/icon.ico'  # Change this to your desired icon path
+    
+    if os.path.exists(icon_file):
+        datas.append((icon_file, 'assets'))
+        icon_path = icon_file
+        print(f"[INFO] Icon file found: {icon_file}")
+    else:
+        print(f"[INFO] No icon file found ({icon_file})")
+    
+    spec_content = f'''# -*- mode: python ; coding: utf-8 -*-
 
 block_cipher = None
 
 # Data files to include
-datas = [
-    ('locales', 'locales'),
-    ('config.py', '.'),
-]
+datas = {datas}
 
 # Hidden imports (modules that PyInstaller might miss)
 hiddenimports = [
@@ -103,7 +117,7 @@ a = Analysis(
     datas=datas,
     hiddenimports=hiddenimports,
     hookspath=[],
-    hooksconfig={},
+    hooksconfig={{}},
     runtime_hooks=[],
     excludes=[],
     win_no_prefer_redirects=False,
@@ -121,7 +135,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='YouTube_Downloader',
+    name='0xDownloader',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -134,11 +148,11 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=None,  # Add icon path here if you have one
+    icon={repr(icon_path)},  # Icon path
 )
 '''
     
-    with open("youtube_downloader.spec", "w", encoding="utf-8") as f:
+    with open("oxDownloader.spec", "w", encoding="utf-8") as f:
         f.write(spec_content)
     
     print("[OK] Build specification created")
@@ -154,7 +168,7 @@ def build_executable():
             sys.executable, "-m", "PyInstaller",
             "--clean",
             "--noconfirm",
-            "youtube_downloader.spec"
+            "0xDownloader.spec"
         ]
         
         print(f"Running: {' '.join(cmd)}")
@@ -178,7 +192,7 @@ def verify_build():
     """Verify that the build was successful."""
     print("\nVerifying build...")
     
-    exe_path = Path("dist") / "YouTube_Downloader.exe"
+    exe_path = Path("dist") / "0xDownloader.exe"
     
     if exe_path.exists():
         size_mb = exe_path.stat().st_size / (1024 * 1024)
@@ -197,11 +211,11 @@ def create_distribution_info():
     # Get current date in a cross-platform way
     current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    info_content = f"""YouTube Downloader - Distribution Package
+    info_content = f"""0xDownloader - Distribution Package
 Generated on: {current_date}
 
 Contents:
-- YouTube_Downloader.exe: Main application executable
+- 0xDownloader.exe: Main application executable
 - README.md: Documentation and usage instructions
 
 System Requirements:
@@ -209,7 +223,7 @@ System Requirements:
 - No additional software installation required
 
 Usage:
-1. Double-click YouTube_Downloader.exe to run
+1. Double-click 0xDownloader.exe to run
 2. Paste YouTube URLs and configure download options
 3. Click download to start downloading videos
 
@@ -224,7 +238,7 @@ For support, visit: https://oscarrc.me
 
 def main():
     """Main build process."""
-    print("YouTube Downloader - Build Script")
+    print("0xDownloader - Build Script")
     print("=" * 50)
     
     # Check if we're in the right directory
@@ -256,7 +270,7 @@ def main():
         create_distribution_info()
         
         print("\n[SUCCESS] Build completed successfully!")
-        print("Executable location: dist/YouTube_Downloader.exe")
+        print("Executable location: dist/0xDownloader.exe")
         print("Documentation: dist/README.txt")
         print("\nYou can now distribute the contents of the 'dist' folder.")
         

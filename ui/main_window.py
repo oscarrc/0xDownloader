@@ -2,6 +2,7 @@
 Main window and layout for the YouTube Downloader application.
 """
 
+import os
 import tkinter as tk
 import customtkinter as ctk
 from tkinter import filedialog
@@ -28,6 +29,10 @@ class MainWindow:
         self.root = ctk.CTk()
         self.root.title(localization.get("app.title", "YouTube Downloader"))
         self.root.geometry(APP_GEOMETRY)
+        
+        # Set window icon if available
+        if os.path.exists("assets/icon.ico"):
+            self.root.iconbitmap("assets/icon.ico")
         
         # Initialize data
         self.output_dir = DEFAULT_OUTPUT_DIR

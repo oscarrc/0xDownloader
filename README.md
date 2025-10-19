@@ -41,6 +41,26 @@ python build.py
 
 The executable will be created in the `/dist` directory.
 
+#### Adding a Custom Icon
+
+To add a custom icon to your application:
+
+1. **Create or obtain an icon file**:
+   - Format: `.ico` file (Windows icon format)
+   - Size: 256x256 pixels (or multiple sizes: 16x16, 32x32, 48x48, 64x64, 128x128, 256x256)
+   - Name: `icon.ico`
+   - Location: Place it in the `assets/` directory
+
+2. **The build script will automatically detect and use the icon**:
+   - If `assets/icon.ico` exists, it will be included in the executable
+   - The icon will appear in the taskbar, window title bar, and file explorer
+   - If no icon is found, the default Python icon will be used
+
+3. **Icon sources**:
+   - Create your own using tools like GIMP, Photoshop, or online icon generators
+   - Use free icon resources like [Flaticon](https://www.flaticon.com/), [Icons8](https://icons8.com/), or [Feather Icons](https://feathericons.com/)
+   - Convert existing images to `.ico` format using online converters
+
 ## 📖 Usage
 
 1. **Add Videos**: Paste YouTube URLs in the input field and click "Add"

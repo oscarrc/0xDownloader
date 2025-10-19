@@ -1,4 +1,4 @@
-# YouTube Downloader Dependencies
+# 0xDownloader Dependencies
 
 # Core dependencies
 yt-dlp>=2023.12.30

@@ -1,11 +1,11 @@
 """
-Configuration and constants for the YouTube Downloader application.
+Configuration and constants for the 0xDownloader application.
 """
 
 import os
 
 # App Configuration
-APP_TITLE = "YouTube Downloader"
+APP_TITLE = "0xDownloader"
 APP_GEOMETRY = "1000x700"
 
 # CustomTkinter Configuration
