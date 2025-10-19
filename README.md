@@ -1,4 +1,4 @@
-# YouTube Downloader
+# 0xDownloader
 
 A modern, multilingual YouTube video downloader with a clean GUI interface built with Python and CustomTkinter.
 
@@ -39,7 +39,7 @@ To create a standalone `.exe` file:
 python build.py
 ```
 
-The executable will be created in the `/dist` directory.
+The executable will be created in the `/dist` directory as `0xDownloader.exe`.
 
 #### Adding a Custom Icon
 

@@ -9,8 +9,8 @@ APP_TITLE = "0xDownloader"
 APP_GEOMETRY = "1000x700"
 
 # CustomTkinter Configuration
-APPEARANCE_MODE = "dark"
-COLOR_THEME = "blue"
+APPEARANCE_MODE = "dark"  # Default to dark mode
+COLOR_THEME = "green"
 
 # Default paths
 DEFAULT_OUTPUT_DIR = os.getcwd()

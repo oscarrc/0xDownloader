@@ -152,7 +152,7 @@ exe = EXE(
 )
 '''
     
-    with open("oxDownloader.spec", "w", encoding="utf-8") as f:
+    with open("0xDownloader.spec", "w", encoding="utf-8") as f:
         f.write(spec_content)
     
     print("[OK] Build specification created")
