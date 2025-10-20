@@ -8,8 +8,22 @@ from core.localization import localization
 
 
 def fetch_video_info(url):
-    """Fetch video information from YouTube URL."""
-    ydl_opts = {"quiet": True, "no_warnings": True}
+    """Fetch video information from YouTube URL with enhanced configuration."""
+    # Import here to avoid circular imports
+    from core.downloader import get_ffmpeg_path
+    
+    ffmpeg_path, ffprobe_path = get_ffmpeg_path()
+    
+    ydl_opts = {
+        "quiet": True, 
+        "no_warnings": True,
+        "ffmpeg_location": ffmpeg_path,
+        "socket_timeout": 30,
+        "retries": 3,
+        "http_headers": {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+    }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info = ydl.extract_info(url, download=False)
