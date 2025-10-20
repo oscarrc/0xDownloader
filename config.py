@@ -3,6 +3,7 @@ Configuration and constants for the 0xDownloader application.
 """
 
 import os
+from pathlib import Path
 
 # App Configuration
 APP_TITLE = "0xDownloader"
@@ -13,7 +14,17 @@ APPEARANCE_MODE = "dark"  # Default to dark mode
 COLOR_THEME = "green"
 
 # Default paths
-DEFAULT_OUTPUT_DIR = os.getcwd()
+def _get_windows_downloads_dir() -> str:
+    try:
+        home = Path.home()
+        downloads = home / "Downloads"
+        if downloads.exists():
+            return str(downloads)
+    except Exception:
+        pass
+    return os.getcwd()
+
+DEFAULT_OUTPUT_DIR = _get_windows_downloads_dir()
 
 # UI Configuration
 THUMBNAIL_HEIGHT = 110
