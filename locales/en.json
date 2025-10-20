@@ -8,7 +8,9 @@
     "folder_placeholder": "Destination Folder",
     "made_with": "Made with",
     "by": "by",
-    "buy_coffee": "Buy me a coffee"
+    "buy_coffee": "Buy me a coffee",
+    "invalid_url_message": "Please enter a valid URL",
+    "empty_url_message": "Please enter a URL"
   },
   "video": {
     "loading": "Loading...",
@@ -20,7 +22,10 @@
     "downloading": "Downloading...",
     "completed": "Completed",
     "error": "Error",
-    "waiting": "Waiting"
+    "waiting": "Waiting",
+    "video_not_found": "Video not found or unavailable",
+    "network_error": "Network error - check your connection",
+    "access_denied": "Access denied - video may be private or restricted"
   },
   "formats": {
     "best": "best - Best quality",

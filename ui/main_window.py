@@ -14,6 +14,7 @@ from config import (
     OSCAR_WEBSITE, KO_FI_LINK
 )
 from core.localization import localization
+from core.utils import is_valid_url
 from ui.video_entry import VideoEntry
 
 
@@ -50,7 +51,7 @@ class MainWindow:
     def _create_top_frame(self):
         """Create the top frame with URL input and add button."""
         self.top_frame = ctk.CTkFrame(self.root)
-        self.top_frame.pack(fill="x", pady=(10, 20), padx=10)
+        self.top_frame.pack(fill="x", pady=(10, 0), padx=10)
         
         # URL input
         self.url_entry = ctk.CTkEntry(self.top_frame, placeholder_text=localization.get("app.url_placeholder", "YouTube Link"))
@@ -59,6 +60,17 @@ class MainWindow:
         # Add button
         self.add_button = ctk.CTkButton(self.top_frame, text=localization.get("app.add_button", "Add"), command=self._add_video)
         self.add_button.pack(side="left")
+        
+        # Error message label (always present to reserve space)
+        self.error_label = ctk.CTkLabel(
+            self.root, 
+            text="", 
+            text_color="red",
+            font=("Arial", 12),
+            height=20,  # Reserve space for the error message
+            anchor="w"  # Align text to the left
+        )
+        self.error_label.pack(pady=(5, 10), padx=10, anchor="w")
     
     def _create_button_frame(self):
         """Create the button frame with download/clear buttons and folder selection."""
@@ -142,17 +154,28 @@ class MainWindow:
         self.attribution_label.bind("<Button-1>", self._open_oscar_site)
         self.coffee_label.bind("<Button-1>", self._open_ko_fi)
     
+    
     def _add_video(self):
         """Add a video to the download queue."""
         url = self.url_entry.get().strip()
+        
+        # Clear any existing error message
+        self._hide_error_message()
+        
+        # Validate URL
         if not url:
+            self._show_error_message(localization.get("app.empty_url_message", "Please enter a URL"))
+            return
+        
+        if not is_valid_url(url):
+            self._show_error_message(localization.get("app.invalid_url_message", "Please enter a valid URL"))
             return
         
         # Clear the URL entry
         self.url_entry.delete(0, tk.END)
         
         # Create new video entry
-        VideoEntry(self.video_list_frame, url, self.output_dir, self.download_queue)
+        VideoEntry(self.video_list_frame, url, self.output_dir, self.download_queue, self)
     
     def _download_all(self):
         """Download all videos in the queue."""
@@ -188,6 +211,16 @@ class MainWindow:
     def _open_ko_fi(self, event):
         """Open Ko-fi page."""
         webbrowser.open(KO_FI_LINK)
+    
+    def _show_error_message(self, message):
+        """Show error message to user."""
+        self.error_label.configure(text=message)
+        # Auto-hide after 5 seconds
+        self.root.after(5000, self._hide_error_message)
+    
+    def _hide_error_message(self):
+        """Hide error message."""
+        self.error_label.configure(text="")
     
     def run(self):
         """Start the application main loop."""

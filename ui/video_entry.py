@@ -26,11 +26,12 @@ from config import THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH
 class VideoEntry:
     """Represents a single video entry in the download queue."""
     
-    def __init__(self, parent_frame, url, output_dir, download_queue):
+    def __init__(self, parent_frame, url, output_dir, download_queue, main_window=None):
         self.parent_frame = parent_frame
         self.url = url
         self.output_dir = output_dir
         self.download_queue = download_queue
+        self.main_window = main_window
         
         # Create the main frame
         self.frame = ctk.CTkFrame(parent_frame, corner_radius=8, fg_color="#2a2a2a")
@@ -250,12 +251,29 @@ class VideoEntry:
     def _handle_error(self, error_message):
         """Handle video info loading error."""
         def update():
-            self.title_label.configure(text=localization.get("video.error_loading", "Error loading metadata"))
-            self.status_label.configure(text=localization.get("video.error", "Error"))
-            self.progress.stop()
-            self.progress.configure(mode="determinate")
-            self.progress.set(0)
-            self.progress_label.configure(text="0%")
+            # Map error types to localized messages
+            if error_message == "video_not_found":
+                error_text = localization.get("video.video_not_found", "Video not found or unavailable")
+            elif error_message == "access_denied":
+                error_text = localization.get("video.access_denied", "Access denied - video may be private or restricted")
+            elif error_message == "network_error":
+                error_text = localization.get("video.network_error", "Network error - check your connection")
+            else:
+                error_text = localization.get("video.error_loading", "Error loading metadata")
+            
+            # Show error message in main window
+            if self.main_window:
+                self.main_window._show_error_message(error_text)
+            
+            # Remove this entry from the download queue
+            if self.entry_data in self.download_queue:
+                self.download_queue.remove(self.entry_data)
+            
+            # Destroy the frame
+            try:
+                self.frame.destroy()
+            except Exception:
+                pass
         
         self.frame.after(0, update)
     

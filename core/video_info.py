@@ -11,8 +11,22 @@ def fetch_video_info(url):
     """Fetch video information from YouTube URL."""
     ydl_opts = {"quiet": True, "no_warnings": True}
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(url, download=False)
-    return info
+        try:
+            info = ydl.extract_info(url, download=False)
+            return info
+        except yt_dlp.utils.DownloadError as e:
+            error_msg = str(e).lower()
+            if "video unavailable" in error_msg or "private video" in error_msg:
+                raise Exception("video_not_found")
+            elif "access denied" in error_msg or "sign in" in error_msg:
+                raise Exception("access_denied")
+            elif "network" in error_msg or "connection" in error_msg:
+                raise Exception("network_error")
+            else:
+                raise Exception("video_not_found")
+        except Exception as e:
+            # Re-raise with a generic error message
+            raise Exception("video_not_found")
 
 
 def extract_resolution_options(formats):

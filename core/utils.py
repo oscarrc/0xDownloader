@@ -4,6 +4,8 @@ Utility functions for the YouTube Downloader application.
 
 import json
 import os
+import re
+from urllib.parse import urlparse
 from config import LANGUAGE_FILE
 
 
@@ -36,5 +38,34 @@ def find_language_code_by_name(language_name):
 
 def sanitize_filename(filename):
     """Sanitize filename by removing invalid characters."""
-    import re
     return re.sub(r'[<>:"/\\|?*]', '_', filename)
+
+
+def is_valid_url(url):
+    """
+    Check if the provided string is a valid URL.
+    
+    Args:
+        url (str): The URL to validate
+        
+    Returns:
+        bool: True if valid URL, False otherwise
+    """
+    if not url or not isinstance(url, str):
+        return False
+    
+    # Remove whitespace
+    url = url.strip()
+    
+    if not url:
+        return False
+    
+    try:
+        # Parse the URL
+        parsed = urlparse(url)
+        
+        # Check if it's a valid URL with scheme and netloc
+        return bool(parsed.scheme and parsed.netloc)
+        
+    except Exception:
+        return False

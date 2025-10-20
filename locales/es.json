@@ -8,7 +8,9 @@
     "folder_placeholder": "Carpeta destino",
     "made_with": "Hecho con",
     "by": "por",
-    "buy_coffee": "Cómprame un café"
+    "buy_coffee": "Cómprame un café",
+    "invalid_url_message": "Por favor ingresa un enlace válido",
+    "empty_url_message": "Por favor ingresa un enlace"
   },
   "video": {
     "loading": "Cargando...",
@@ -20,7 +22,10 @@
     "downloading": "Descargando...",
     "completed": "Completado",
     "error": "Error",
-    "waiting": "Esperando"
+    "waiting": "Esperando",
+    "video_not_found": "Video no encontrado o no disponible",
+    "network_error": "Error de red - verifica tu conexión",
+    "access_denied": "Acceso denegado - el video puede ser privado o restringido"
   },
   "formats": {
     "best": "best - Mejor calidad",
