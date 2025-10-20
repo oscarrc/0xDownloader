@@ -4,15 +4,29 @@ Utility functions for the YouTube Downloader application.
 
 import json
 import os
+import sys
 import re
 from urllib.parse import urlparse
 from config import LANGUAGE_FILE, LOCALES_FILE
 
 
+def _get_resource_path(relative_path: str) -> str:
+    """Get the absolute path to a resource, works both in dev and PyInstaller."""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        # Development mode
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
+
+
 def load_language_names():
     """Load language names from the JSON file."""
     try:
-        with open(LANGUAGE_FILE, "r", encoding="utf-8") as f:
+        file_path = _get_resource_path(LANGUAGE_FILE)
+        with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         return {}
@@ -21,7 +35,8 @@ def load_language_names():
 def load_audio_locale_names():
     """Load display names for locales (locale -> "Language (Country)") from LOCALES_FILE."""
     try:
-        with open(LOCALES_FILE, "r", encoding="utf-8") as f:
+        file_path = _get_resource_path(LOCALES_FILE)
+        with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         return {}

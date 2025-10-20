@@ -4,6 +4,7 @@ Localization and internationalization support for the YouTube Downloader applica
 
 import json
 import os
+import sys
 import locale
 from typing import Dict, Any
 
@@ -12,10 +13,21 @@ class LocalizationManager:
     """Manages application localization and translations."""
     
     def __init__(self, locales_dir: str = "locales"):
-        self.locales_dir = locales_dir
+        self.locales_dir = self._get_resource_path(locales_dir)
         self.current_language = self._detect_system_language()
         self.translations = {}
         self._load_translations()
+    
+    def _get_resource_path(self, relative_path: str) -> str:
+        """Get the absolute path to a resource, works both in dev and PyInstaller."""
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            # Development mode
+            base_path = os.path.abspath(".")
+        
+        return os.path.join(base_path, relative_path)
     
     def _detect_system_language(self) -> str:
         """Detect the system language and return appropriate language code."""
