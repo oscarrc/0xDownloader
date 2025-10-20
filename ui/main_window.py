@@ -3,6 +3,8 @@ Main window and layout for the YouTube Downloader application.
 """
 
 import os
+import sys
+import ctypes
 import tkinter as tk
 import customtkinter as ctk
 from tkinter import filedialog
@@ -31,9 +33,25 @@ class MainWindow:
         self.root.title(localization.get("app.title", "YouTube Downloader"))
         self.root.geometry(APP_GEOMETRY)
         
-        # Set window icon if available
-        if os.path.exists("assets/icon.ico"):
-            self.root.iconbitmap("assets/icon.ico")
+        # Set Windows AppUserModelID for proper taskbar grouping/icon (Windows only)
+        try:
+            if sys.platform.startswith("win"):
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("0xDownloader")
+        except Exception:
+            pass
+
+        # Resolve absolute path for assets (supports PyInstaller and dev runs)
+        def resource_path(relative_path: str) -> str:
+            base_path = getattr(sys, "_MEIPASS", os.path.abspath("."))
+            return os.path.join(base_path, relative_path)
+
+        # Set window icon if available (use absolute path)
+        icon_path = resource_path("assets/icon.ico")
+        if os.path.exists(icon_path):
+            try:
+                self.root.iconbitmap(icon_path)
+            except Exception:
+                pass
         
         # Initialize data
         self.output_dir = DEFAULT_OUTPUT_DIR
