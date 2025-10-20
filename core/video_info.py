@@ -111,6 +111,25 @@ def extract_subtitle_options(info):
     return subs_options
 
 
-def get_format_options():
-    """Get available output format options."""
-    return ["mp4", "webm", "mkv", "avi", "mov"]
+def extract_format_options(formats):
+    """Extract available video container format options from video formats."""
+    # Define valid video container formats
+    valid_video_formats = {"mp4", "webm", "mkv", "avi", "mov", "flv", "3gp", "ogv"}
+    
+    format_options = set()
+    
+    # Extract unique video container formats from the video's available formats
+    for f in formats:
+        if f.get("ext") and f["ext"] in valid_video_formats:
+            # Only include formats that have video (not audio-only)
+            if f.get("vcodec") and f["vcodec"] != "none":
+                format_options.add(f["ext"])
+    
+    # Convert to sorted list
+    format_list = sorted(list(format_options))
+    
+    # If no formats found, provide common fallbacks
+    if not format_list:
+        format_list = ["mp4", "webm", "mkv"]
+    
+    return format_list

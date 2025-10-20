@@ -15,7 +15,7 @@ from core.video_info import (
     extract_resolution_options, 
     extract_audio_language_options,
     extract_subtitle_options,
-    get_format_options
+    extract_format_options
 )
 from core.downloader import download_video
 from core.utils import sanitize_filename
@@ -120,7 +120,7 @@ class VideoEntry:
                 
                 # Extract options
                 resolution_options = extract_resolution_options(formats)
-                format_options = get_format_options()
+                format_options = extract_format_options(formats)
                 audio_options = extract_audio_language_options(formats, info)
                 subs_options = extract_subtitle_options(info)
                 
