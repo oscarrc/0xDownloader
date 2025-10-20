@@ -92,7 +92,7 @@ def extract_audio_language_options(formats, info):
             sorted_langs.remove(default_audio_lang)
             sorted_langs.insert(0, default_audio_lang)
         
-        # Convert to display names
+        # Convert to display names using unified language display name resolver
         audio_options = [get_language_display_name(lang) for lang in sorted_langs]
     else:
         audio_options = ["default"]

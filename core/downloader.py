@@ -63,7 +63,7 @@ def download_video(entry, output_dir, progress_callback=None, status_callback=No
     selected_audio_display = entry["audio_var"].get()
     subtitle_lang = entry["subs_var"].get()
     
-    # Extract language code from display name
+    # Extract audio locale/language code from display name using unified resolver
     if selected_audio_display == "default":
         selected_audio = "default"
     else:

@@ -25,7 +25,8 @@ VIDEO_LIST_HEIGHT = 550
 
 # Localization
 LOCALES_DIR = "locales"
-LANGUAGE_FILE = "locales/lang.json"  # For language names (ISO codes)
+LANGUAGE_FILE = "locales/lang.json"  # For subtitle language names (ISO codes)
+LOCALES_FILE = "locales/locales.json"  # For audio language display names (locale -> "Language (Country)")
 
 # Links
 OSCAR_WEBSITE = "https://oscarrc.me"
